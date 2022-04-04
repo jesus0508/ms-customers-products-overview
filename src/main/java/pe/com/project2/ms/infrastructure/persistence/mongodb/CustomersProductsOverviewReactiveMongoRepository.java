@@ -3,10 +3,12 @@ package pe.com.project2.ms.infrastructure.persistence.mongodb;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import pe.com.project2.ms.application.persistence.CustomersProductsOverviewRepository;
-import pe.com.project2.ms.domain.CustomersProductOverview;
-import pe.com.project2.ms.infrastructure.persistence.model.CustomersProductOverviewDao;
+import pe.com.project2.ms.domain.Product;
+import pe.com.project2.ms.infrastructure.persistence.model.ProductDao;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.time.LocalDateTime;
 
 @Repository
 @RequiredArgsConstructor
@@ -15,23 +17,28 @@ public class CustomersProductsOverviewReactiveMongoRepository implements Custome
     private final ICustomersProductsOverviewReactiveMongoRepository customersProductsOverviewReactiveMongoRepository;
 
     @Override
-    public Flux<CustomersProductOverview> findAll() {
+    public Flux<Product> findAll() {
         return customersProductsOverviewReactiveMongoRepository
                 .findAll()
-                .map(CustomersProductOverviewDao::toCustomersProductOverview);
+                .map(ProductDao::toCustomersProductOverview);
     }
 
     @Override
-    public Flux<CustomersProductOverview> findByCustomerId(String customerId) {
+    public Flux<Product> findByCustomerId(String customerId) {
         return customersProductsOverviewReactiveMongoRepository
                 .findByCustomerId(customerId)
-                .map(CustomersProductOverviewDao::toCustomersProductOverview);
+                .map(ProductDao::toCustomersProductOverview);
     }
 
     @Override
-    public Mono<CustomersProductOverview> save(CustomersProductOverview customersProductOverview) {
+    public Flux<Product> findByCustomerIdAndCreatedAtBetween(String customerId, LocalDateTime startDate, LocalDateTime endDate) {
+        return customersProductsOverviewReactiveMongoRepository.findByCustomerIdAndCreatedAtBetween(customerId, startDate, endDate);
+    }
+
+    @Override
+    public Mono<Product> save(Product product) {
         return customersProductsOverviewReactiveMongoRepository
-                .save(new CustomersProductOverviewDao(customersProductOverview))
-                .map(CustomersProductOverviewDao::toCustomersProductOverview);
+                .save(new ProductDao(product))
+                .map(ProductDao::toCustomersProductOverview);
     }
 }

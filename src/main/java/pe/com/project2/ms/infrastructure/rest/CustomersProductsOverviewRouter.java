@@ -16,8 +16,10 @@ public class CustomersProductsOverviewRouter {
 
     @Bean
     public RouterFunction<ServerResponse> routes(CustomersProductsOverviewHandler customersProductsOverviewHandler) {
-        return route(GET(CUSTOMERS_PRODUCTS_OVERVIEW).and(accept(APPLICATION_JSON)), customersProductsOverviewHandler::getAllCustomersProductsOverview)
-                .andRoute(GET(CUSTOMERS_PRODUCTS_OVERVIEW).and(accept(APPLICATION_JSON)), customersProductsOverviewHandler::getAllCustomersProductsOverviewByCustomerId)
+        return route(GET(CUSTOMERS_PRODUCTS_OVERVIEW).and(queryParam("customerId", c -> true)).and(queryParam("startDate", s -> true)).and(queryParam("endDate", e -> true)),
+                customersProductsOverviewHandler::getAllCustomersProductsOverviewByCustomerIdAndStartDateAndEndDate)
+                .andRoute(GET(CUSTOMERS_PRODUCTS_OVERVIEW).and(queryParam("customerId", t -> true)), customersProductsOverviewHandler::getAllCustomersProductsOverviewByCustomerId)
+                .andRoute(GET(CUSTOMERS_PRODUCTS_OVERVIEW), customersProductsOverviewHandler::getAllCustomersProductsOverview)
                 .andRoute(POST(CUSTOMERS_PRODUCTS_OVERVIEW).and(accept(APPLICATION_JSON)), customersProductsOverviewHandler::postCustomersProductsOverview);
     }
 

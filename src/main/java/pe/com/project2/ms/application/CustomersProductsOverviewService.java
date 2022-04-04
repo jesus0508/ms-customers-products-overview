@@ -1,13 +1,17 @@
 package pe.com.project2.ms.application;
 
-import pe.com.project2.ms.domain.CustomersProductOverview;
+import pe.com.project2.ms.domain.Product;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.LocalDateTime;
+
 public interface CustomersProductsOverviewService {
-    Flux<CustomersProductOverview> findAll();
+    Flux<Product> findAll();
 
-    Flux<CustomersProductOverview> findByCustomerId(String customerId);
+    Flux<Product> findByCustomerId(String customerId);
 
-    Mono<CustomersProductOverview> save(CustomersProductOverview customersProductOverview);
+    Mono<Product> save(Product product);
+
+    Flux<Product> findByCustomerIdAndCreatedAtBetween(String customerId, LocalDateTime startDate, LocalDateTime endDate);
 }

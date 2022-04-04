@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public class Product {
     private String id;
     private String name;
-    private String url;
+    private String customerId;
     private LocalDateTime createdAt;
-    private Status status;
+    private ProductStatus productStatus;
 }
